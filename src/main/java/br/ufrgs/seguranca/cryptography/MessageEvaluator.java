@@ -29,7 +29,7 @@ public class MessageEvaluator {
 
 		for (char c : message.toCharArray()) {
 			
-			if (c >= ASCII_LOWER_VALUE && c <= ASCII_UPPER_VALUE) {
+			if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <='z') || c == ' ') {
 				points++;
 				
 			} else {
