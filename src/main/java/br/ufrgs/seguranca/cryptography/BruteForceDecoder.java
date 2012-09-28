@@ -37,14 +37,14 @@ public class BruteForceDecoder {
 		// Worker w3 = new Worker(encodedMessage, partialKey, 5, 83, 106);
 		// Worker w4 = new Worker(encodedMessage, partialKey, 5, 107, 126);
 
-		Worker w1 = new Worker(encodedMessage, partialKey, 5, 33, 47);
-		Worker w2 = new Worker(encodedMessage, partialKey, 5, 48, 57);
-		Worker w3 = new Worker(encodedMessage, partialKey, 5, 58, 64);
-		Worker w4 = new Worker(encodedMessage, partialKey, 5, 65, 75);
-		Worker w5 = new Worker(encodedMessage, partialKey, 5, 76, 90);
-		Worker w6 = new Worker(encodedMessage, partialKey, 5, 91, 105);
-		Worker w7 = new Worker(encodedMessage, partialKey, 5, 106, 118);
-		Worker w8 = new Worker(encodedMessage, partialKey, 5, 119, 126);
+		Worker w1 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 33, 47);
+		Worker w2 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 48, 57);
+		Worker w3 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 58, 64);
+		Worker w4 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 65, 75);
+		Worker w5 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 76, 90);
+		Worker w6 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 91, 105);
+		Worker w7 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 106, 118);
+		Worker w8 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 119, 126);
 
 		Future<String> keyFromWork1 = executor.submit(w1);
 		Future<String> keyFromWork2 = executor.submit(w2);
@@ -55,8 +55,6 @@ public class BruteForceDecoder {
 		Future<String> keyFromWork7 = executor.submit(w7);
 		Future<String> keyFromWork8 = executor.submit(w8);
 		
-		executor.awaitTermination(24, TimeUnit.HOURS);
-
 		System.out.println("Key 1: " + keyFromWork1.get());
 		System.out.println("Key 2: " + keyFromWork2.get());
 		System.out.println("Key 3: " + keyFromWork3.get());
@@ -65,6 +63,22 @@ public class BruteForceDecoder {
 		System.out.println("Key 6: " + keyFromWork6.get());
 		System.out.println("Key 7: " + keyFromWork7.get());
 		System.out.println("Key 8: " + keyFromWork8.get());
+	}
+	
+	public void decode1() throws InterruptedException, ExecutionException {
+
+		ExecutorService executor = Executors
+				.newFixedThreadPool(availableProcessorsCount);
+
+		Worker w1 = new Worker(encodedMessage, partialKey, missingKeySuffixSize, 33, 126);
+
+		Future<String> keyFromWork1 = executor.submit(w1);
+		
+		System.out.println("Key 1: " + keyFromWork1.get());
+		
+		executor.shutdown();
+		executor.awaitTermination(5, TimeUnit.MINUTES);
+		
 	}
 
 	public void setMissingKeySuffixSize(int missingSuffixSize) {

@@ -8,7 +8,7 @@ public class Worker implements Callable<String> {
 	private String partialKey;
 
 	private AsciiKeyGenerator keyGenerator;
-	private AESCipher cipher;
+	private ECBCipher cipher;
 	
 	private String bestKey;
 	private int bestKeyEvaluationPoints;
@@ -18,7 +18,7 @@ public class Worker implements Callable<String> {
 		this.encodedMessage = new Hexadecimal().setValue(encodedMessage);
 		this.partialKey = partialKey;
 
-		cipher = new AESCipher();
+		cipher = new ECBCipher();
 		keyGenerator = new AsciiKeyGenerator(keySuffixSize, lower, upper);
 	}
 
@@ -26,24 +26,20 @@ public class Worker implements Callable<String> {
 
 		while (keyGenerator.hasNext()) {
 		
-			String key = partialKey + keyGenerator.next();
+			String next = keyGenerator.next();
+			String key = partialKey + next;
 
-			encodedMessage.setPadding(cipher.computePadding(key));
 			String decodedMessage = cipher.decrypt(encodedMessage, key);
 			
 			int decodedMessageEvaluationPoints = MessageEvaluator.evaluate(decodedMessage);
-			if (decodedMessageEvaluationPoints > bestKeyEvaluationPoints && decodedMessageEvaluationPoints > 5) {
+			if (decodedMessageEvaluationPoints >= bestKeyEvaluationPoints && decodedMessageEvaluationPoints > 5) {
 				bestKey = key;
 				bestKeyEvaluationPoints = decodedMessageEvaluationPoints;
 				
-				System.out.println("## Best key so far: " + bestKey);
+				System.out.println(String.format("Message decoded with key %s \n Scored %s:\n\nDecoded Message:\n %s\n -----------------------------", key, bestKeyEvaluationPoints, decodedMessage) );
 			}
 		}
 
 		return bestKey;
-	}
-
-	public void setKeyBasedCipher(AESCipher cipher) {
-		this.cipher = cipher;
 	}
 }
