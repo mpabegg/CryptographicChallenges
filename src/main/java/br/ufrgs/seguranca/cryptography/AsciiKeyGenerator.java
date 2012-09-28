@@ -106,12 +106,11 @@ public class AsciiKeyGenerator implements Iterator<String> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.util.Iterator#hasNext()
-	 */
 	public boolean hasNext() {
-		return lastGeneratedKey[0] <= upperAsciiValue;
+		for(char c : lastGeneratedKey) {
+			if (c < upperAsciiValue) return true;
+		}
+		return false;
 	}
 
 	/**

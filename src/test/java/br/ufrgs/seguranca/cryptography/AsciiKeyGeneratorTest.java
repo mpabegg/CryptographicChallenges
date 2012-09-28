@@ -1,7 +1,10 @@
 package br.ufrgs.seguranca.cryptography;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 import junit.framework.Assert;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 public class AsciiKeyGeneratorTest {
@@ -36,5 +39,13 @@ public class AsciiKeyGeneratorTest {
 		keyGenerator.computeOverflow(key, 2);
 		
 		Assert.assertEquals("%!!", String.valueOf(key));
+	}
+	
+	@Test
+	public void itKnowsWhenToStop() throws Exception {
+		keyGenerator = new AsciiKeyGenerator(new char[]{'~', '}'}, 3, '~', '~');
+		
+		assertThat(keyGenerator.next(), is("~~"));
+		assertThat(keyGenerator.hasNext(), is(false));
 	}
 }
