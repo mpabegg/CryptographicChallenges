@@ -42,9 +42,9 @@ public class BruteForceDecoderTest {
 		
 		String weberText= "546578746F2070617261207465737465";
 		
-		BruteForceDecoder decoder = new BruteForceDecoder(weberText, "essasenhaehfra");
-		decoder.setMissingKeySuffixSize(2);
-		decoder.decode1();
+		BruteForceDecoder decoder = new BruteForceDecoder(encodedMessage, "Key2Group1900");
+		decoder.setMissingKeySuffixSize(3);
+		decoder.decode();
 		
 	}
 	

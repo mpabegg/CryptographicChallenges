@@ -29,9 +29,8 @@ public class MessageEvaluator {
 
 		for (char c : message.toCharArray()) {
 			
-			if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <='z') || c == ' ') {
+			if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <='z') || c == ' ' || c == ',' || c == '.') {
 				points++;
-				
 			} else {
 				points--;
 			}

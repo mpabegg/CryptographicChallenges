@@ -94,7 +94,7 @@ public class WorkerTest {
 				"714C5D42CE1351B11FD5F0E90FADB385" +
 				"C4B35F72294E001B3E503D73359EDA64" +
 				"5543FED3344CD537102118ACA0650263";
-		worker = new Worker(encodedMessage, "Key2Group190", 4, 33, 126);
+		worker = new Worker(encodedMessage, "Key2Group1900", 3, 33, 126);
 		assertEquals(expectedKey, worker.call());
 	}
 	

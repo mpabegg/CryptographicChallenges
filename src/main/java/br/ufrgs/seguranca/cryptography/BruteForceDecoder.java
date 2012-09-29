@@ -55,6 +55,8 @@ public class BruteForceDecoder {
 		Future<String> keyFromWork7 = executor.submit(w7);
 		Future<String> keyFromWork8 = executor.submit(w8);
 		
+		executor.shutdown();
+		
 		System.out.println("Key 1: " + keyFromWork1.get());
 		System.out.println("Key 2: " + keyFromWork2.get());
 		System.out.println("Key 3: " + keyFromWork3.get());
@@ -74,10 +76,10 @@ public class BruteForceDecoder {
 
 		Future<String> keyFromWork1 = executor.submit(w1);
 		
+		executor.shutdown();
+		
 		System.out.println("Key 1: " + keyFromWork1.get());
 		
-		executor.shutdown();
-		executor.awaitTermination(5, TimeUnit.MINUTES);
 		
 	}
 
